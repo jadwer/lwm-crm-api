@@ -1,0 +1,49 @@
+created:
+    - app/Http/Controllers/ProductController.php
+    - app/Http/Controllers/UnitController.php
+    - app/Http/Controllers/CategoryController.php
+    - app/Http/Controllers/BrandController.php
+    - database/factories/ProductFactory.php
+    - database/factories/UnitFactory.php
+    - database/factories/CategoryFactory.php
+    - database/factories/BrandFactory.php
+    - database/migrations/2024_06_05_132953_create_products_table.php
+    - database/migrations/2024_06_05_132954_create_units_table.php
+    - database/migrations/2024_06_05_132955_create_categories_table.php
+    - database/migrations/2024_06_05_132956_create_brands_table.php
+    - app/Models/Product.php
+    - app/Models/Unit.php
+    - app/Models/Category.php
+    - app/Models/Brand.php
+    - database/seeders/ProductSeeder.php
+    - database/seeders/CategorySeeder.php
+    - database/seeders/BrandSeeder.php
+    - database/seeders/UnitSeeder.php
+    - tests/Feature/Http/Controllers/ProductControllerTest.php
+    - tests/Feature/Http/Controllers/UnitControllerTest.php
+    - tests/Feature/Http/Controllers/CategoryControllerTest.php
+    - tests/Feature/Http/Controllers/BrandControllerTest.php
+    - app/Http/Requests/ProductStoreRequest.php
+    - app/Http/Requests/ProductUpdateRequest.php
+    - app/Http/Requests/UnitStoreRequest.php
+    - app/Http/Requests/UnitUpdateRequest.php
+    - app/Http/Requests/CategoryStoreRequest.php
+    - app/Http/Requests/CategoryUpdateRequest.php
+    - app/Http/Requests/BrandStoreRequest.php
+    - app/Http/Requests/BrandUpdateRequest.php
+    - app/Http/Resources/ProductCollection.php
+    - app/Http/Resources/ProductResource.php
+    - app/Http/Resources/UnitCollection.php
+    - app/Http/Resources/UnitResource.php
+    - app/Http/Resources/CategoryCollection.php
+    - app/Http/Resources/CategoryResource.php
+    - app/Http/Resources/BrandCollection.php
+    - app/Http/Resources/BrandResource.php
+updated:
+    - routes/api.php
+models:
+    User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: string, remember_token: 'string:100 nullable' }
+    Product: { name: 'string:400', sku: 'string:50 nullable unique', description: longtext, full_description: longtext, img_path: 'string:400 nullable', datasheet_path: 'string:400 nullable', unit_id: 'id foreign', category_id: 'id foreign', brand_id: 'id foreign' }
+    Unit: { type: 'string:200 nullable', code: 'string:10 nullable unique', name: 'string:200' }
+    Category: { name: 'string:200', description: 'longtext nullable', slug: 'string:200 nullable' }
+    Brand: { name: 'string:200', description: 'longtext nullable' }
