@@ -24,10 +24,10 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name(),
+            'name' => $this->faker->sentence(6),
             'sku' => $this->faker->regexify('[A-Za-z0-9]{50}'),
             'description' => $this->faker->text(),
-            'full_description' => $this->faker->text(),
+            'full_description' => $this->faker->text(50),
             'img_path' => $this->faker->regexify('[A-Za-z0-9]{400}'),
             'datasheet_path' => $this->faker->regexify('[A-Za-z0-9]{400}'),
             'unit_id' => Unit::factory(),

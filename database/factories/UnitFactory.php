@@ -21,9 +21,9 @@ class UnitFactory extends Factory
     public function definition(): array
     {
         return [
-            'type' => $this->faker->regexify('[A-Za-z0-9]{200}'),
+            'type' => $this->faker->sentence(1),
             'code' => $this->faker->regexify('[A-Za-z0-9]{10}'),
-            'name' => $this->faker->name(),
+            'name' => $this->faker->sentence(2),
         ];
     }
 }
