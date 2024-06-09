@@ -14,9 +14,9 @@ class ProductController extends Controller
 {
     public function index(Request $request): Response
     {
-        $products = Product::all();
+        $products = ProductResource::collection(Product::paginate(5))->resource ;
 
-        return response(new ProductCollection($products));
+        return response($products);
     }
 
     public function store(ProductStoreRequest $request): Response

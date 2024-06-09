@@ -28,7 +28,7 @@ class ProductFactory extends Factory
             'sku' => $this->faker->regexify('[A-Za-z0-9]{50}'),
             'description' => $this->faker->text(),
             'full_description' => $this->faker->text(50),
-            'img_path' => $this->faker->regexify('[A-Za-z0-9]{400}'),
+            'img_path' => $this->faker->imageUrl(),
             'datasheet_path' => $this->faker->regexify('[A-Za-z0-9]{400}'),
             'unit_id' => Unit::factory(),
             'category_id' => Category::factory(),
