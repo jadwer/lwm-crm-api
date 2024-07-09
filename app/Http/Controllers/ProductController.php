@@ -14,7 +14,7 @@ class ProductController extends Controller
 {
     public function index(Request $request): Response
     {
-        $products = ProductResource::collection(Product::paginate(5))->resource ;
+        $products = ProductResource::collection(Product::filters($request)->paginate(5))->resource ;
 
         return response($products);
     }
