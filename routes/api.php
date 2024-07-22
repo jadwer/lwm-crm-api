@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 
 // Route::prefix('v1')->group(function(){
@@ -25,3 +26,13 @@ Route::apiResource('units', App\Http\Controllers\UnitController::class);
 Route::apiResource('categories', App\Http\Controllers\CategoryController::class);
 
 Route::apiResource('brands', App\Http\Controllers\BrandController::class);
+
+Route::post('send_form.php', function (Request $request) : Response{
+    $res = [
+        "status" => "success",
+        "data" => [
+            ]
+        ];        
+    
+    return response(json_encode($res), 200)->header("Content-type","application/json");
+});
