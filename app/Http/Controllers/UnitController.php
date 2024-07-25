@@ -15,7 +15,7 @@ class UnitController extends Controller
     public function index(Request $request): Response
     {
         $units = Unit::all();
-
+        $units = UnitResource::collection(Unit::all())->resource ;
         return response(new UnitCollection($units));
     }
 

@@ -14,7 +14,8 @@ class BrandController extends Controller
 {
     public function index(Request $request): Response
     {
-        $brands = Brand::all();
+        // $brands = Brand::all();
+        $brands = BrandResource::collection(Brand::all())->resource ;
 
         return response(new BrandCollection($brands));
     }
