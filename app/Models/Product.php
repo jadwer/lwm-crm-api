@@ -48,15 +48,25 @@ class Product extends Model
 
     public function scopeFilters(Builder $query, Request $request)
     {
-        return $query
-        ->when($request->has('name'), function ($query) use ($request) {
-            return $query->where('name', 'like', '%' . $request->name . '%');
-/*        })
-        ->when($request->has('brand'), function ($query) use ($request) {
-            return $query->where('brand', 'like', '%' . $request->brand . '%');
-        })
-        ->when($request->has('category'), function ($query) use ($request) {
-            return $query->where('category', 'like', '%' . $request->category . '%');
-*/        });
-}
+        $query->when($request->has('name'), function ($query) use ($request) {
+            $search = str_word_count($request->name,1, 'áéíóúÁÉÍÓÚÑñ');
+            $part = "";
+            foreach ($search as $nombre) {
+                error_log("nombre: ".$nombre);
+                $query->orWhere('name', 'like', '%' . $nombre . '%');
+            }
+                return $query;
+            })
+            ->when($request->has('brand'), function ($query) use ($request) {
+                foreach ($request->brand as $key => $marca) {
+                    error_log("marca: ".$marca);
+                    return $query->where('brand_id', '=', $marca);
+                }
+            })
+            ->when($request->has('category'), function ($query) use ($request) {
+                error_log("categoría: ".$request->category);
+                return $query->where('category_id', '=', $request->category);
+            });
+         return $query;
+    }
 }
