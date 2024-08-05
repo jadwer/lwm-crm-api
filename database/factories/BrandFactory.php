@@ -23,6 +23,7 @@ class BrandFactory extends Factory
         return [
             'name' => $this->faker->company(),
             'description' => $this->faker->text(),
+            'slug' => $this->faker->slug(),
         ];
     }
 }

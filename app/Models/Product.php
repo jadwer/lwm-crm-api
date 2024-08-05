@@ -66,6 +66,10 @@ class Product extends Model
             ->when($request->has('category'), function ($query) use ($request) {
                 error_log("categoría: ".$request->category);
                 return $query->where('category_id', '=', $request->category);
+            })
+            ->when($request->has('sort'), function ($query) use ($request) {
+                error_log("sorted: ".$request->sort);
+                return $query->orderBy($request->sort, 'desc');
             });
          return $query;
     }

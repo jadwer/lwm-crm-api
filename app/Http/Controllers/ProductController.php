@@ -24,9 +24,10 @@ class ProductController extends Controller
     public function store(ProductStoreRequest $request): Response
     {
         if (isset($request->selectedImage)) {
-            error_log("entro al if");
-            error_log($request);
             Storage::disk('public')->putFileAs('products', $request->selectedImage, $request->img_path);
+        }
+        if (isset($request->datasheet)) {
+            Storage::disk('public')->put('datasheets/'.$request->datasheet->getClientOriginalName(), file_get_contents($request->datasheet));
         }
         $product = Product::create($request->validated());
 
@@ -40,11 +41,14 @@ class ProductController extends Controller
 
     public function update(ProductUpdateRequest $request, Product $product): Response
     {
+
         if (isset($request->selectedImage)) {
-            error_log("entro al if");
-            error_log($request);
             Storage::disk('public')->putFileAs('products', $request->selectedImage, $request->img_path);
         }
+        if (isset($request->datasheet)) {
+            Storage::disk('public')->put('datasheets/'.$request->datasheet->getClientOriginalName(), file_get_contents($request->datasheet));
+        }
+
         $product->update($request->validated());
 
         return response(new ProductResource($product));

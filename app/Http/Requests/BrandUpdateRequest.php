@@ -22,6 +22,7 @@ class BrandUpdateRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:200'],
             'description' => ['nullable', 'string'],
+            'slug' => ['nullable', 'string', 'max:200'],
         ];
     }
 }

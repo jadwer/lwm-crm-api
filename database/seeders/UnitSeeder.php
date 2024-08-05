@@ -14,9 +14,14 @@ class UnitSeeder extends Seeder
     {
         //Unit::factory()->count(5)->create();
         Unit::factory()->create([
-            'type' => 'PZ',
-            'code' => 'PZ',
-            'name' => 'PZ',
+            'type' => 'pz',
+            'code' => 'pz',
+            'name' => 'Pieza',
+        ]);
+        Unit::factory()->create([
+            'type' => 'box',
+            'code' => 'bx',
+            'name' => 'Caja',
         ]);
     }
 }

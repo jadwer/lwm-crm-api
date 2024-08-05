@@ -22,6 +22,7 @@ class BrandsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithChu
         return new Brand([
             'name' => $row['marca'],
             'description' => $row['marca'],
+            'slug' => $row['marca'],
         ]);
     }
 

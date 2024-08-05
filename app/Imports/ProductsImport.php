@@ -42,12 +42,12 @@ class ProductsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             'full_description' => $row['descripcion_tecnica'] ? $row['descripcion_tecnica'] : "",
             'img_path' => $row['imagen'],
             'datasheet_path' => $row['datasheet'],
-            // 'unit_id' => $this->units[$row['medida']],
-            // 'category_id' => $this->categories[$row['categoria']],
-            // 'brand_id' => $this->brands[$row['marca']],
-            'unit_id' => 1,
-            'category_id' => 1,
-            'brand_id' => 1,
+            'unit_id' => $row['medida'],
+            'category_id' => $row['categoria'],
+            'brand_id' => $row['marca'],
+            //'unit_id' => 1,
+            //'category_id' => 1,
+            //'brand_id' => 1,
         ]);
     }
 
