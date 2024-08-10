@@ -19,11 +19,6 @@ class CategorySeeder extends Seeder
             'slug' => "reactivos",
         ]);
         Category::factory()->create([
-            'name' => "Reactivos",
-            'description' => "Reactivos",
-            'slug' => "reactivos",
-        ]);
-        Category::factory()->create([
             'name' => "Medios de cultivo",
             'description' => "Medios de cultivo",
             'slug' => "medios-de-cultivo",
