@@ -49,13 +49,14 @@ class Product extends Model
     public function scopeFilters(Builder $query, Request $request)
     {
         $query->when($request->has('name'), function ($query) use ($request) {
-            $search = str_word_count($request->name,1, 'áéíóúÁÉÍÓÚÑñ');
-            $part = "";
-            foreach ($search as $nombre) {
-                error_log("nombre: ".$nombre);
-                $query->orWhere('name', 'like', '%' . $nombre . '%');
-            }
-                return $query;
+                $search = str_word_count($request->name,1, 'áéíóúÁÉÍÓÚÑñ1234567890.');
+                $part = "";
+                foreach ($search as $nombre) {
+                    error_log("SearchString: ".$nombre);
+                    $query->orWhere('name', 'like', '%' . $nombre . '%')
+                    ->orWhere('sku', 'like', '%'.$request->name.'%');
+                }
+                    return $query;
             })
             ->when($request->has('brand'), function ($query) use ($request) {
                 foreach ($request->brand as $key => $marca) {
