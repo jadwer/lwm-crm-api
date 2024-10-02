@@ -10,8 +10,9 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithUpserts;
 
-class ProductsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithChunkReading
+class ProductsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithChunkReading, WithUpserts
 {
     /**
     * @param array $row
@@ -28,6 +29,7 @@ class ProductsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
         $this->categories = Category::pluck('id', 'name');
         $this->units = Unit::pluck('id', 'name');
         $this->brands = Brand::pluck('id', 'name');
+        ini_set('max_execution_time', '300');
     }
 
     public function model(array $row)
@@ -49,6 +51,11 @@ class ProductsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             //'category_id' => 1,
             //'brand_id' => 1,
         ]);
+    }
+
+    public function uniqueBy()
+    {
+        return 'sku';
     }
 
     public function batchSize(): int 
