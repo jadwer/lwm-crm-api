@@ -21,6 +21,8 @@ class ProductResource extends JsonResource
             'sku' => $this->sku,
             'description' => $this->description,
             'full_description' => $this->full_description,
+            'price' => $this->price,
+            'cost' => $this->cost,
             'img_path' => $this->img_path,
             'datasheet_path' => $this->datasheet_path,
             'unit_id' => new UnitResource(Unit::find($this->unit_id)),

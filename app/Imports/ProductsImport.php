@@ -36,12 +36,13 @@ class ProductsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
     {
         return new Product([
 
-            // sku,ID. DE PRODUCTO,MARCA,LINEA,CATEGORIA,DESCRIPCION DE PRODUCTO,Descripcion tecnica,UNIDAD DE MEDIDA,IMAGEN DEL PRODUCTO ,DataSheet,precio mxn +IVA,precio DLS +IVA
 
             'name' => $row['descripcion'],
             'sku' => $row['id'],
             'description' => $row['descripcion'],
             'full_description' => $row['descripcion_tecnica'] ? $row['descripcion_tecnica'] : "",
+            'price' => $row['precio'] ? $row['precio'] : "",
+            'cost' => $row['costo'] ? $row['costo'] : "",
             'img_path' => $row['imagen'],
             'datasheet_path' => $row['datasheet'],
             'unit_id' => $row['medida'],

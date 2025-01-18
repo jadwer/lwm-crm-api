@@ -25,6 +25,8 @@ class ProductUpdateRequest extends FormRequest
             'sku' => ['nullable', 'string', 'max:50', Rule::unique('products')->ignore(request()->sku, 'sku')],
             'description' => ['required', 'string'],
             'full_description' => ['required', 'string'],
+            'price' => ['nullable', 'double'],
+            'cost' => ['nullable', 'double'],
             'img_path' => ['nullable', 'string', 'max:400'],
             'datasheet_path' => ['nullable', 'string', 'max:400'],
             'unit_id' => ['required', 'integer', 'exists:units,id'],
