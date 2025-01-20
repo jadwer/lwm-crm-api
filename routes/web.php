@@ -74,7 +74,7 @@ Route::post('quotation_form', function (Request $request): Response {
         Correo electronico: ".$request->mail."\r\n
         Telefono: ".$request->tel."\r\n
         Producto: ".$request->producto."\r\n
-        Cantidad: ".$request->cantodad."\r\n
+        Cantidad: ".$request->cantidad."\r\n
         Mensaje: ".$request->mensaje."\r\n";
         
         try {
