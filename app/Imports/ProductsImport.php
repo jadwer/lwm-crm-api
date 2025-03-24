@@ -43,6 +43,7 @@ class ProductsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             'full_description' => $row['descripcion_tecnica'] ? $row['descripcion_tecnica'] : "",
             'price' => $row['precio'] ? $row['precio'] : "",
             'cost' => $row['costo'] ? $row['costo'] : "",
+            'iva' => $row['iva'] ? $row['iva'] : "",
             'img_path' => $row['imagen'],
             'datasheet_path' => $row['datasheet'],
             'unit_id' => $row['medida'],

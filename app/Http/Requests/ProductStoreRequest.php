@@ -25,6 +25,7 @@ class ProductStoreRequest extends FormRequest
             'description' => ['required', 'string'],
             'full_description' => ['required', 'string'],
             'price' => ['nullable', 'decimal:2,4'],
+            'iva' => ['nullable', 'boolean'],
             'cost' => ['nullable', 'decimal:2,4'],
             'img_path' => ['nullable', 'string', 'max:400'],
             'datasheet_path' => ['nullable', 'string', 'max:400'],

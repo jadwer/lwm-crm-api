@@ -27,6 +27,7 @@ class ProductUpdateRequest extends FormRequest
             'full_description' => ['required', 'string'],
             'price' => ['nullable', 'decimal:2,4'],
             'cost' => ['nullable', 'decimal:2,4'],
+            'iva' => ['nullable', 'boolean'],
             'img_path' => ['nullable', 'string', 'max:400'],
             'datasheet_path' => ['nullable', 'string', 'max:400'],
             'unit_id' => ['required', 'integer', 'exists:units,id'],
