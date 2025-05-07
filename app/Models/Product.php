@@ -45,7 +45,7 @@ class Product extends Model
     {
         return $this->belongsTo(Brand::class);
     }
-
+/*
     public function scopeFilters(Builder $query, Request $request)
     {
         $query
@@ -80,4 +80,40 @@ class Product extends Model
             });
          return $query;
     }
+*/
+
+public function scopeFilters($query, Request $request)
+{
+    if ($request->filled('name')) {
+        $name = $request->input('name');
+        $name = preg_replace('/[[:^print:]]/', '', $name);
+        $terms = preg_split('/\\s+/', $name);
+        foreach ($terms as $term) {
+            $query->where('name', 'like', '%' . $term . '%');
+        }
+    }
+
+    if ($request->filled('sku')) {
+        $sku = $request->input('sku');
+        $sku = preg_replace('/[[:^print:]]/', '', $sku);
+        $terms = preg_split('/\\s+/', $sku);
+        foreach ($terms as $term) {
+            $query->where('sku', 'like', '%' . $term . '%');
+        }
+    }
+
+    if ($request->filled('category_id')) {
+        $query->where('category_id', $request->input('category_id'));
+    }
+
+    if ($request->filled('brand_id')) {
+        $brands = explode(',', $request->input('brand_id'));
+        $query->whereIn('brand_id', $brands);
+    }
+
+    if ($request->filled('orderBy')) {
+        $query->orderBy($request->input('orderBy'), $request->input('direction', 'asc'));
+    }
+}
+
 }
