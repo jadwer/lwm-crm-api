@@ -22,7 +22,7 @@ return [
     //'allowed_origins' => [env('FRONTEND_URL', 'http://localhost:3000')],
     'allowed_origins' => [
         env('FRONTEND_URL', 'http://localhost:3000'),
-        'https://laborwasserdemexico.com',
+        'https://dev.laborwasserdemexico.com',
     ],
 
     'allowed_origins_patterns' => [],
