@@ -3,8 +3,10 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Brand;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Str;
 use JMac\Testing\Traits\HttpTestAssertions;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -21,12 +23,11 @@ final class BrandControllerTest extends TestCase
     {
         $brands = Brand::factory()->count(3)->create();
 
-        $response = $this->get(route('brands.index'));
+        $response = $this->getJson(route('brands.index'));
 
         $response->assertOk();
         $response->assertJsonStructure([]);
     }
-
 
     #[Test]
     public function store_uses_form_request_validation(): void
@@ -41,34 +42,44 @@ final class BrandControllerTest extends TestCase
     #[Test]
     public function store_saves(): void
     {
-        $name = $this->faker->name();
+        $this->actingAs(User::factory()->create(), 'sanctum');
 
-        $response = $this->post(route('brands.store'), [
+        $name = $this->faker->company;
+        $description = $this->faker->sentence;
+        $slug = Str::slug($name);
+
+        $response = $this->postJson(route('brands.store'), [
             'name' => $name,
+            'description' => $description,
+            'slug' => $slug,
         ]);
 
-        $brands = Brand::query()
-            ->where('name', $name)
-            ->get();
+        $brands = Brand::where('name', $name)->get();
         $this->assertCount(1, $brands);
         $brand = $brands->first();
 
         $response->assertCreated();
-        $response->assertJsonStructure([]);
+        $response->assertJson([
+            'id' => $brand->id,
+            'name' => $name,
+        ]);
     }
-
 
     #[Test]
     public function show_behaves_as_expected(): void
     {
         $brand = Brand::factory()->create();
 
-        $response = $this->get(route('brands.show', $brand));
+        $response = $this->getJson(route('brands.show', $brand));
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'id',
+            'name',
+            'description',
+            'slug'
+        ]);
     }
-
 
     #[Test]
     public function update_uses_form_request_validation(): void
@@ -83,31 +94,40 @@ final class BrandControllerTest extends TestCase
     #[Test]
     public function update_behaves_as_expected(): void
     {
-        $brand = Brand::factory()->create();
-        $name = $this->faker->name();
+        $this->actingAs(User::factory()->create(), 'sanctum');
 
-        $response = $this->put(route('brands.update', $brand), [
+        $brand = Brand::factory()->create();
+        $name = $this->faker->company;
+        $description = $this->faker->sentence;
+        $slug = Str::slug($name);
+
+        $response = $this->putJson(route('brands.update', $brand), [
             'name' => $name,
+            'description' => $description,
+            'slug' => $slug,
         ]);
 
         $brand->refresh();
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJson([
+            'id' => $brand->id,
+            'name' => $name,
+        ]);
 
         $this->assertEquals($name, $brand->name);
     }
 
-
     #[Test]
     public function destroy_deletes_and_responds_with(): void
     {
+        $this->actingAs(User::factory()->create(), 'sanctum');
+
         $brand = Brand::factory()->create();
 
-        $response = $this->delete(route('brands.destroy', $brand));
+        $response = $this->deleteJson(route('brands.destroy', $brand));
 
         $response->assertNoContent();
-
         $this->assertModelMissing($brand);
     }
 }

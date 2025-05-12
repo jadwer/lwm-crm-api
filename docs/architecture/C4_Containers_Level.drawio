@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Archivo: C4_Containers_Level.drawio -->
+<mxfile host="app.diagrams.net">
+  <diagram name="Contenedores ERP LaborWasser" id="2">
+    <mxGraphModel dx="1226" dy="683" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Frontend Web -->
+        <mxCell id="10" value="Frontend Web (Next.js)
+- Público: E-commerce
+- Privado: Dashboard ERP" style="shape=swimlane;whiteSpace=wrap;html=1;fillColor=#e1d5e7;" vertex="1" parent="1">
+          <mxGeometry x="60" y="100" width="260" height="160" as="geometry"/>
+        </mxCell>
+
+        <!-- Backend API -->
+        <mxCell id="20" value="Backend API (Laravel)
+- RESTful json:api
+- Autenticación Sanctum" style="shape=swimlane;whiteSpace=wrap;html=1;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="360" y="100" width="260" height="160" as="geometry"/>
+        </mxCell>
+
+        <!-- MySQL -->
+        <mxCell id="30" value="Base de Datos (MySQL)" style="shape=cylinder;whiteSpace=wrap;html=1;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="240" y="300" width="160" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="31" style="endArrow=block;html=1;" edge="1" parent="1" source="10" target="30">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="32" style="endArrow=block;html=1;" edge="1" parent="1" source="20" target="30">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Media Storage -->
+        <mxCell id="40" value="Storage / Media
+(Laravel Filesystem)" style="shape=folder;whiteSpace=wrap;html=1;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="560" y="300" width="180" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="41" style="endArrow=block;html=1;" edge="1" parent="1" source="20" target="40">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

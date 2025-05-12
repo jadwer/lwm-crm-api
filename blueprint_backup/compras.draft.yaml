@@ -1,0 +1,43 @@
+# Archivo: .blueprint
+# Módulo de Compras - ERP LaborWasser
+
+models:
+  Supplier:
+    name: string:150
+    email: string:150 nullable
+    phone: string:50 nullable
+    address: text nullable
+    rfc: string:13 nullable
+    hasMany: PurchaseOrder
+
+  PurchaseOrder:
+    supplier_id: id foreign:suppliers
+    order_date: date
+    status: enum:pending,approved,received,cancelled default:pending
+    total_amount: decimal:10,2
+    notes: text nullable
+    hasMany: PurchaseOrderItem
+    belongsTo: Supplier
+
+  PurchaseOrderItem:
+    purchase_order_id: id foreign:purchase_orders
+    product_id: id foreign:products
+    quantity: integer
+    unit_price: decimal:10,2
+    subtotal: decimal:10,2
+    belongsTo: PurchaseOrder, Product
+
+controllers:
+  Supplier:
+    resource: api
+
+  PurchaseOrder:
+    resource: api
+
+  PurchaseOrderItem:
+    resource: api
+
+routes:
+  api:
+    prefix: api
+    middleware: auth:sanctum

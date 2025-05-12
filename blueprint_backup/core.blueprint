@@ -42,8 +42,36 @@ created:
 updated:
     - routes/api.php
 models:
-    User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: string, remember_token: 'string:100 nullable' }
-    Product: { name: 'string:400', sku: 'string:50 nullable unique', description: longtext, full_description: longtext, img_path: 'string:400 nullable', datasheet_path: 'string:400 nullable', unit_id: 'id foreign', category_id: 'id foreign', brand_id: 'id foreign' }
-    Unit: { type: 'string:200 nullable', code: 'string:10 nullable unique', name: 'string:200' }
-    Category: { name: 'string:200', description: 'longtext nullable', slug: 'string:200 nullable' }
-    Brand: { name: 'string:200', description: 'longtext nullable' }
+    User:
+        {
+            name: string,
+            email: string,
+            email_verified_at: "timestamp nullable",
+            password: string,
+            remember_token: "string:100 nullable",
+        }
+    Product:
+        {
+            name: "string:400",
+            sku: "string:50 nullable unique",
+            description: longtext,
+            full_description: longtext,
+            img_path: "string:400 nullable",
+            datasheet_path: "string:400 nullable",
+            unit_id: "id foreign",
+            category_id: "id foreign",
+            brand_id: "id foreign",
+        }
+    Unit:
+        {
+            type: "string:200 nullable",
+            code: "string:10 nullable unique",
+            name: "string:200",
+        }
+    Category:
+        {
+            name: "string:200",
+            description: "longtext nullable",
+            slug: "string:200 nullable",
+        }
+    Brand: { name: "string:200", description: "longtext nullable" }

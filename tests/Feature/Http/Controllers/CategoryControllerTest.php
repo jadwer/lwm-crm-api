@@ -3,8 +3,10 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Str;
 use JMac\Testing\Traits\HttpTestAssertions;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -19,14 +21,13 @@ final class CategoryControllerTest extends TestCase
     #[Test]
     public function index_behaves_as_expected(): void
     {
-        $categories = Category::factory()->count(3)->create();
+        Category::factory()->count(3)->create();
 
-        $response = $this->get(route('categories.index'));
+        $response = $this->getJson(route('categories.index'));
 
         $response->assertOk();
         $response->assertJsonStructure([]);
     }
-
 
     #[Test]
     public function store_uses_form_request_validation(): void
@@ -41,34 +42,44 @@ final class CategoryControllerTest extends TestCase
     #[Test]
     public function store_saves(): void
     {
-        $name = $this->faker->name();
+        $this->actingAs(User::factory()->create(), 'sanctum');
 
-        $response = $this->post(route('categories.store'), [
+        $name = $this->faker->word;
+        $description = $this->faker->sentence;
+        $slug = Str::slug($name);
+
+        $response = $this->postJson(route('categories.store'), [
             'name' => $name,
+            'description' => $description,
+            'slug' => $slug,
         ]);
 
-        $categories = Category::query()
-            ->where('name', $name)
-            ->get();
+        $categories = Category::where('name', $name)->get();
         $this->assertCount(1, $categories);
         $category = $categories->first();
 
         $response->assertCreated();
-        $response->assertJsonStructure([]);
+        $response->assertJson([
+            'id' => $category->id,
+            'name' => $name,
+        ]);
     }
-
 
     #[Test]
     public function show_behaves_as_expected(): void
     {
         $category = Category::factory()->create();
 
-        $response = $this->get(route('categories.show', $category));
+        $response = $this->getJson(route('categories.show', $category));
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'id',
+            'name',
+            'description',
+            'slug'
+        ]);
     }
-
 
     #[Test]
     public function update_uses_form_request_validation(): void
@@ -83,31 +94,40 @@ final class CategoryControllerTest extends TestCase
     #[Test]
     public function update_behaves_as_expected(): void
     {
-        $category = Category::factory()->create();
-        $name = $this->faker->name();
+        $this->actingAs(User::factory()->create(), 'sanctum');
 
-        $response = $this->put(route('categories.update', $category), [
+        $category = Category::factory()->create();
+        $name = $this->faker->word;
+        $description = $this->faker->sentence;
+        $slug = Str::slug($name);
+
+        $response = $this->putJson(route('categories.update', $category), [
             'name' => $name,
+            'description' => $description,
+            'slug' => $slug,
         ]);
 
         $category->refresh();
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJson([
+            'id' => $category->id,
+            'name' => $name,
+        ]);
 
         $this->assertEquals($name, $category->name);
     }
 
-
     #[Test]
     public function destroy_deletes_and_responds_with(): void
     {
+        $this->actingAs(User::factory()->create(), 'sanctum');
+
         $category = Category::factory()->create();
 
-        $response = $this->delete(route('categories.destroy', $category));
+        $response = $this->deleteJson(route('categories.destroy', $category));
 
         $response->assertNoContent();
-
         $this->assertModelMissing($category);
     }
 }

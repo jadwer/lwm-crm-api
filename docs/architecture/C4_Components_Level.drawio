@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Archivo: C4_Components_Level.drawio -->
+<mxfile host="app.diagrams.net">
+  <diagram name="Componentes ERP LaborWasser" id="3">
+    <mxGraphModel dx="1226" dy="683" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Inventarios -->
+        <mxCell id="10" value="📦 Inventarios
+- Producto
+- Unidad
+- Categoría
+- Marca
+- Stock
+- Kardex" style="shape=swimlane;whiteSpace=wrap;html=1;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="20" y="60" width="200" height="160" as="geometry"/>
+        </mxCell>
+
+        <!-- Compras -->
+        <mxCell id="20" value="🧾 Compras
+- Orden de Compra
+- Proveedor
+- Seguimiento" style="shape=swimlane;whiteSpace=wrap;html=1;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="250" y="60" width="200" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="21" style="endArrow=block;html=1;" edge="1" parent="1" source="20" target="10">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Ventas -->
+        <mxCell id="30" value="🧾 Ventas
+- Cotización
+- Cliente
+- Promoción" style="shape=swimlane;whiteSpace=wrap;html=1;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="480" y="60" width="200" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="31" style="endArrow=block;html=1;" edge="1" parent="1" source="30" target="10">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Facturación -->
+        <mxCell id="40" value="🧾 Facturación
+- CFDI
+- Folios
+- SAT
+- XML/PDF" style="shape=swimlane;whiteSpace=wrap;html=1;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="710" y="60" width="200" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="41" style="endArrow=block;html=1;" edge="1" parent="1" source="40" target="30">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- E-commerce -->
+        <mxCell id="50" value="🛒 E-commerce
+- Catálogo
+- Carrito
+- Pagos" style="shape=swimlane;whiteSpace=wrap;html=1;fillColor=#f5f5f5;" vertex="1" parent="1">
+          <mxGeometry x="20" y="260" width="200" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="51" style="endArrow=block;html=1;" edge="1" parent="1" source="50" target="30">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Finanzas -->
+        <mxCell id="60" value="💰 Finanzas
+- Ingreso
+- Egreso
+- Presupuesto" style="shape=swimlane;whiteSpace=wrap;html=1;fillColor=#e1d5e7;" vertex="1" parent="1">
+          <mxGeometry x="250" y="240" width="200" height="120" as="geometry"/>
+        </mxCell>
+
+        <!-- Contabilidad -->
+        <mxCell id="70" value="📚 Contabilidad
+- Asientos
+- Cuentas
+- Balances" style="shape=swimlane;whiteSpace=wrap;html=1;fillColor=#e1d5e7;" vertex="1" parent="1">
+          <mxGeometry x="480" y="240" width="200" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="71" style="endArrow=block;html=1;" edge="1" parent="1" source="60" target="70">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CRM -->
+        <mxCell id="80" value="📋 CRM
+- Seguimiento
+- Proyectos
+- Recordatorios" style="shape=swimlane;whiteSpace=wrap;html=1;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="710" y="240" width="200" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="81" style="endArrow=block;html=1;" edge="1" parent="1" source="30" target="80">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Reportes -->
+        <mxCell id="90" value="📈 Reportes
+- KPIs
+- Dashboard
+- Exportación" style="shape=swimlane;whiteSpace=wrap;html=1;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="940" y="150" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="91" style="endArrow=block;html=1;" edge="1" parent="1" source="70" target="90">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="92" style="endArrow=block;html=1;" edge="1" parent="1" source="60" target="90">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

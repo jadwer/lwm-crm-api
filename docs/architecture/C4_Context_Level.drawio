@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram name="Contexto ERP LaborWasser" id="1">
+    <mxGraphModel dx="1226" dy="683" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Sistema ERP -->
+        <mxCell id="2" value="ERP LaborWasser" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="400" y="200" width="180" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Usuarios -->
+        <mxCell id="3" value="Usuarios (GOD, Admin, Operadores)" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#fff2cc;" vertex="1" parent="1">
+          <mxGeometry x="100" y="100" width="200" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="4" style="endArrow=block;html=1;" edge="1" parent="1" source="3" target="2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- SAT -->
+        <mxCell id="5" value="SAT (CFDI)" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="100" y="350" width="140" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="6" style="endArrow=block;html=1;" edge="1" parent="1" source="2" target="5">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Banco -->
+        <mxCell id="7" value="Banco (Servicios)" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="600" y="100" width="160" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="8" style="endArrow=block;html=1;" edge="1" parent="1" source="7" target="2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Correo / Notificaciones -->
+        <mxCell id="9" value="Correo / Push" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="600" y="300" width="160" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="10" style="endArrow=block;html=1;" edge="1" parent="1" source="2" target="9">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Pagos -->
+        <mxCell id="11" value="Plataforma de pagos" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="100" y="500" width="160" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="12" style="endArrow=block;html=1;" edge="1" parent="1" source="11" target="2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
