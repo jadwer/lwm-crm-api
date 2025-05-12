@@ -88,3 +88,10 @@ if (! app()->environment('production')) {
         ]);
     });
 }
+
+
+Route::apiResource('suppliers', App\Http\Controllers\SupplierController::class);
+
+Route::apiResource('purchase-orders', App\Http\Controllers\PurchaseOrderController::class);
+
+Route::apiResource('purchase-order-items', App\Http\Controllers\PurchaseOrderItemController::class);
