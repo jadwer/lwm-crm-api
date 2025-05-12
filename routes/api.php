@@ -41,7 +41,12 @@ Route::apiResource('categories', CategoryController::class)->only(['index', 'sho
 Route::apiResource('brands', BrandController::class)->only(['index', 'show']);
 
 
-Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('warehouses', WarehouseController::class)->only(['index', 'show']);
+    Route::apiResource('warehouse-locations', WarehouseLocationController::class)->only(['index', 'show']);
+    Route::apiResource('product-batches', ProductBatchController::class)->only(['index', 'show']);
+    Route::apiResource('stock', StockController::class)->only(['index', 'show']);
+
+    Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('products', ProductController::class)->except(['index'])->only(['store', 'update', 'destroy']);
     Route::apiResource('units', UnitController::class)->only(['store', 'update', 'destroy']);
