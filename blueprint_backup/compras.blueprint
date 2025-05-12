@@ -5,9 +5,9 @@ created:
     - database/factories/SupplierFactory.php
     - database/factories/PurchaseOrderFactory.php
     - database/factories/PurchaseOrderItemFactory.php
-    - database/migrations/2025_05_12_005802_create_suppliers_table.php
-    - database/migrations/2025_05_12_005803_create_purchase_orders_table.php
-    - database/migrations/2025_05_12_005804_create_purchase_order_items_table.php
+    - database/migrations/2025_05_12_140005_create_suppliers_table.php
+    - database/migrations/2025_05_12_140006_create_purchase_orders_table.php
+    - database/migrations/2025_05_12_140007_create_purchase_order_items_table.php
     - app/Models/Supplier.php
     - app/Models/PurchaseOrder.php
     - app/Models/PurchaseOrderItem.php
@@ -29,6 +29,6 @@ created:
 updated:
     - routes/api.php
 models:
-    Supplier: { name: 'string:150', email: 'string:150 nullable', phone: 'string:50 nullable', address: 'text nullable', rfc: 'string:13 nullable', hasMany: PurchaseOrder }
-    PurchaseOrder: { supplier_id: 'id foreign:suppliers', order_date: date, status: 'enum:pending,approved,received,cancelled default:pending', total_amount: 'decimal:10,2', notes: 'text nullable', hasMany: PurchaseOrderItem, belongsTo: Supplier }
-    PurchaseOrderItem: { purchase_order_id: 'id foreign:purchase_orders', product_id: 'id foreign:products', quantity: integer, unit_price: 'decimal:10,2', subtotal: 'decimal:10,2', belongsTo: 'PurchaseOrder, Product' }
+    Supplier: { name: 'string:150', email: 'string:150 nullable', phone: 'string:50 nullable', address: 'text nullable', rfc: 'string:13 nullable', relationships: { hasMany: PurchaseOrder } }
+    PurchaseOrder: { supplier_id: 'id foreign:suppliers', order_date: date, status: 'enum:pending,approved,received,cancelled default:pending', total_amount: 'decimal:10,2', notes: 'text nullable', relationships: { belongsTo: Supplier, hasMany: PurchaseOrderItem } }
+    PurchaseOrderItem: { purchase_order_id: 'id foreign:purchase_orders', product_id: 'id foreign:products', quantity: integer, unit_price: 'decimal:10,2', subtotal: 'decimal:10,2', relationships: { belongsTo: 'PurchaseOrder, Product' } }

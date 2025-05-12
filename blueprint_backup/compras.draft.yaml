@@ -1,5 +1,5 @@
-# Archivo: .blueprint
-# Módulo de Compras - ERP LaborWasser
+# Archivo: draft.yaml
+# Módulo Compras - ERP LaborWasser
 
 models:
   Supplier:
@@ -8,7 +8,8 @@ models:
     phone: string:50 nullable
     address: text nullable
     rfc: string:13 nullable
-    hasMany: PurchaseOrder
+    relationships:
+      hasMany: PurchaseOrder
 
   PurchaseOrder:
     supplier_id: id foreign:suppliers
@@ -16,8 +17,9 @@ models:
     status: enum:pending,approved,received,cancelled default:pending
     total_amount: decimal:10,2
     notes: text nullable
-    hasMany: PurchaseOrderItem
-    belongsTo: Supplier
+    relationships:
+      belongsTo: Supplier
+      hasMany: PurchaseOrderItem
 
   PurchaseOrderItem:
     purchase_order_id: id foreign:purchase_orders
@@ -25,7 +27,8 @@ models:
     quantity: integer
     unit_price: decimal:10,2
     subtotal: decimal:10,2
-    belongsTo: PurchaseOrder, Product
+    relationships:
+      belongsTo: PurchaseOrder, Product
 
 controllers:
   Supplier:

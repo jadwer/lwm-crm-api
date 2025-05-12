@@ -95,3 +95,10 @@ Route::apiResource('suppliers', App\Http\Controllers\SupplierController::class);
 Route::apiResource('purchase-orders', App\Http\Controllers\PurchaseOrderController::class);
 
 Route::apiResource('purchase-order-items', App\Http\Controllers\PurchaseOrderItemController::class);
+
+
+Route::apiResource('customers', App\Http\Controllers\CustomerController::class);
+
+Route::apiResource('sales-orders', App\Http\Controllers\SalesOrderController::class);
+
+Route::apiResource('sales-order-items', App\Http\Controllers\SalesOrderItemController::class);
