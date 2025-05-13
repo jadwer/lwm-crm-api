@@ -25,7 +25,10 @@ class StoreProductBatchRequest extends FormRequest
             'product_id' => 'required|exists:products,id',
             'batch_number' => 'required|string|max:100',
             'expiration_date' => 'nullable|date',
+            'entry_date' => 'nullable|date',
             'quantity' => 'required|numeric|min:0',
+            'warehouse_id' => 'required|exists:warehouses,id',
+            'warehouse_location_id' => 'required|exists:warehouse_locations,id',
         ];
     }
 }

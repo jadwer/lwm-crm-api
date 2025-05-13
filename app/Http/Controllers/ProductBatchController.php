@@ -7,17 +7,31 @@ use App\Http\Requests\StoreProductBatchRequest;
 use App\Http\Requests\UpdateProductBatchRequest;
 use App\Http\Resources\ProductBatchResource;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 
 class ProductBatchController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return ProductBatchResource::collection(ProductBatch::all());
-    }
+        $query = ProductBatch::query();
 
+        // Si se proporciona el parámetro product_id, filtramos por él
+        if ($request->has('product_id')) {
+            $query->where('product_id', $request->product_id);
+        }
+
+        // Cargar relaciones necesarias
+        $query->with(['warehouse', 'warehouseLocation']);
+
+        // Obtener todos los resultados
+        $batches = $query->get();
+
+        // Retornar colección de recursos
+        return ProductBatchResource::collection($batches);
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -32,6 +46,7 @@ class ProductBatchController extends Controller
      */
     public function show(ProductBatch $productBatch)
     {
+        $productBatch->load(['warehouse', 'warehouseLocation']);
         return new ProductBatchResource($productBatch);
     }
 
@@ -40,8 +55,9 @@ class ProductBatchController extends Controller
      */
     public function update(UpdateProductBatchRequest $request, ProductBatch $productBatch)
     {
-        $productBatch->update($request->validated());
-        return new ProductBatchResource($productBatch);
+    $productBatch->update($request->validated());
+
+    return new ProductBatchResource($productBatch->fresh(['warehouse', 'warehouseLocation']));
     }
 
     /**

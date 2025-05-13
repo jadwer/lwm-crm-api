@@ -22,10 +22,31 @@ class ProductBatch extends Model
     use HasFactory;
     protected $guarded = [];
 
+    protected $fillable = [
+    'product_id',
+    'batch_number',
+    'quantity',
+    'entry_date',
+    'expiration_date',
+    'warehouse_id',
+    'warehouse_location_id'
+];
+
     /**
      * Un lote pertenece a un producto.
      */
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
-    }}
+    }
+
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
+    public function warehouseLocation()
+    {
+        return $this->belongsTo(WarehouseLocation::class);
+    }
+}

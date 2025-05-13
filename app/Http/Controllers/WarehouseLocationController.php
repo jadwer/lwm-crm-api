@@ -15,7 +15,9 @@ class WarehouseLocationController extends Controller
      */
     public function index()
     {
-        return WarehouseLocationResource::collection(WarehouseLocation::all());
+        //        return WarehouseLocationResource::collection(WarehouseLocation::all());
+        $locations = WarehouseLocation::with('warehouse')->get();
+        return WarehouseLocationResource::collection($locations);
     }
 
     /**
