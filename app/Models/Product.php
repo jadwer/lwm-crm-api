@@ -45,7 +45,7 @@ class Product extends Model
     {
         return $this->belongsTo(Brand::class);
     }
-/*
+
     public function scopeFilters(Builder $query, Request $request)
     {
         $query
@@ -80,8 +80,9 @@ class Product extends Model
             });
          return $query;
     }
-*/
 
+
+/*
 public function scopeFilters($query, Request $request)
 {
     if ($request->filled('name')) {
@@ -114,6 +115,6 @@ public function scopeFilters($query, Request $request)
     if ($request->filled('orderBy')) {
         $query->orderBy($request->input('orderBy'), $request->input('direction', 'asc'));
     }
-}
+}*/
 
 }
