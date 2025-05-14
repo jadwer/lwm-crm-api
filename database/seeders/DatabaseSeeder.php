@@ -1,8 +1,9 @@
 <?php
 
+// Archivo: database/seeders/DatabaseSeeder.php
+
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,16 +14,22 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            // BrandSeeder::class,
-            // CategorySeeder::class,
-            // ProductSeeder::class,
-            // UnitSeeder::class,
-            // UserSeeder::class,
-
+            UnitSeeder::class,
+            UserSeeder::class,
+            GabinoUserSeeder::class,
+            SupplierSeeder::class,
+            CustomerSeeder::class,
+            BrandSeeder::class,
+            CategorySeeder::class,
             WarehouseSeeder::class,
             WarehouseLocationSeeder::class,
+            ProductSeeder::class,
             ProductBatchSeeder::class,
             StockSeeder::class,
+            PurchaseOrderSeeder::class,
+            PurchaseOrderItemSeeder::class,
+            SalesOrderSeeder::class,
+            SalesOrderItemSeeder::class
         ]);
     }
 }

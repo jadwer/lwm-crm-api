@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Warehouse;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Models\WarehouseLocation>
@@ -16,10 +17,14 @@ class WarehouseLocationFactory extends Factory
      */
     public function definition(): array
     {
+        $warehouse = Warehouse::inRandomOrder()->first() ?? Warehouse::factory()->create();
+        
         return [
-            'warehouse_id' => 1,
+            'warehouse_id' => $warehouse->id,
             'name' => $this->faker->word . ' ' . $this->faker->randomElement(['A', 'B', 'C']),
             'type' => $this->faker->randomElement(['pasillo', 'estante', 'zona']),
         ];
     }
 }
+
+

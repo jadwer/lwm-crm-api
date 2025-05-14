@@ -22,7 +22,7 @@ class PurchaseOrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'supplier_id' => Supplier::factory(),
+            'supplier_id' => Supplier::factory()->create()->id,
             'order_date' => fake()->date(),
             'status' => fake()->randomElement(["pending","approved","received","cancelled"]),
             'total_amount' => fake()->randomFloat(2, 0, 99999999.99),

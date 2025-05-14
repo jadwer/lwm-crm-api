@@ -1,30 +1,31 @@
 <?php
 
+// Archivo: database/factories/StockFactory.php
+
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Product;
+use App\Models\Warehouse;
+use App\Models\WarehouseLocation;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Models\Stock>
- */
 class StockFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
+
+        $product = Product::inRandomOrder()->first() ?? Product::factory()->create();
+        $warehouse = Warehouse::inRandomOrder()->first() ?? Warehouse::factory()->create();
+        $location = WarehouseLocation::inRandomOrder()->first() ?? WarehouseLocation::factory()->create();
+
         return [
-            'product_id' => 1,
-            'warehouse_id' => 1,
-            'warehouse_location_id' => null,
-            'quantity' => $this->faker->randomFloat(2, 0, 500),
-            'average_cost' => $this->faker->randomFloat(2, 10, 1000),
+            'product_id' => $product->id,
+            'warehouse_id' => $warehouse->id,
+            'warehouse_location_id' => $location->id,
+            'quantity' => $this->faker->numberBetween(0, 100),
+            'average_cost' => $this->faker->randomFloat(2, 100, 10000),
             'stock_min' => 10,
             'stock_max' => 200,
-            'reorder_point' => 50,
-        ];
+            'reorder_point' => 50,        ];
     }
 }

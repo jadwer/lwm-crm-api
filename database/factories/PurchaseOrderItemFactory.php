@@ -1,33 +1,30 @@
 <?php
 
+// Archivo: database/factories/PurchaseOrderItemFactory.php
+
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use App\Models\Product;
 use App\Models\PurchaseOrder;
-use App\Models\PurchaseOrderItem;
 
 class PurchaseOrderItemFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
-    protected $model = PurchaseOrderItem::class;
-
-    /**
-     * Define the model's default state.
-     */
     public function definition(): array
     {
+
+        $order = PurchaseOrder::inRandomOrder()->first() ?? PurchaseOrder::factory()->create();
+        $product = Product::inRandomOrder()->first() ?? Product::factory()->create();
+
+        $quantity = $this->faker->numberBetween(1, 20);
+        $unitPrice = $this->faker->randomFloat(2, 10, 1000);
+
         return [
-            'purchase_order_id' => PurchaseOrder::factory(),
-            'product_id' => Product::factory(),
-            'quantity' => fake()->numberBetween(-10000, 10000),
-            'unit_price' => fake()->randomFloat(2, 0, 99999999.99),
-            'subtotal' => fake()->randomFloat(2, 0, 99999999.99),
+            'purchase_order_id' => $order->id,
+            'product_id' => $product->id,
+            'quantity' => $quantity,
+            'unit_price' => $unitPrice,
+            'subtotal' => $quantity * $unitPrice,
         ];
     }
 }

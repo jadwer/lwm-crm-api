@@ -1,24 +1,23 @@
 <?php
 
+// Archivo: database/factories/WarehouseFactory.php
+
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\User;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Models\Warehouse>
- */
 class WarehouseFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
+        // Usar un manager existente si hay usuarios creados
+        $manager = User::inRandomOrder()->first() ?? User::factory()->create();
+
         return [
-            'name' => $this->faker->company . ' Almacén',
-            'location' => $this->faker->city,
+            'name' => 'Almacén ' . $this->faker->city(),
+            'location' => $this->faker->address(),
+            'manager_id' => $manager->id,
             'notes' => $this->faker->optional()->sentence(),
         ];
     }

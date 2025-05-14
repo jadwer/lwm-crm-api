@@ -1,29 +1,35 @@
 <?php
 
+// Archivo: database/factories/CategoryFactory.php
+
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\Category;
 
 class CategoryFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
-    protected $model = Category::class;
-
-    /**
-     * Define the model's default state.
-     */
     public function definition(): array
     {
+        $name = $this->faker->randomElement([
+            'Reactivos',
+            'Medios de cultivo',
+            'Cristalería',
+            'Análisis de agua',
+            'Proceso',
+            'Instrumentación',
+            'Control de calidad',
+            'Consumibles',
+            'Vidriería de laboratorio',
+            'Sistemas de medición'
+        ]);
+
+        $suffix = $this->faker->numerify('###'); // entropía simple
+
         return [
-            'name' => $this->faker->sentence(1),
-            'description' => $this->faker->text(),
-            'slug' => $this->faker->slug(),
+            'name' => $name . ' ' . $suffix,
+            'description' => $name,
+            'slug' => Str::slug($name . '-' . $suffix),
         ];
     }
 }

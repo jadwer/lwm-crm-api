@@ -1,24 +1,23 @@
 <?php
 
+// Archivo: database/seeders/GabinoUserSeeder.php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use App\Models\Warehouse;
 
-class WarehouseSeeder extends Seeder
+class GabinoUserSeeder extends Seeder
 {
     public function run(): void
     {
-        // Buscar o crear al usuario principal (Gabino)
-        $gabino = User::firstOrCreate(
+        User::updateOrCreate(
             ['email' => 'jadwer@msn.com'],
             [
                 'name' => 'Gabino Ramírez',
-                'password' => bcrypt('123'),
+                'password' => Hash::make('123'),
             ]
         );
-
-        Warehouse::factory()->count(5)->create();
     }
 }

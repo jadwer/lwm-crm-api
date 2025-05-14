@@ -1,38 +1,52 @@
 <?php
 
+// Archivo: database/factories/ProductFactory.php
+
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\Brand;
-use App\Models\Category;
-use App\Models\Product;
 use App\Models\Unit;
+use App\Models\Category;
+use App\Models\Brand;
 
 class ProductFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
-    protected $model = Product::class;
-
-    /**
-     * Define the model's default state.
-     */
     public function definition(): array
     {
+        $unit = Unit::inRandomOrder()->first() ?? Unit::factory()->create();
+        $category = Category::inRandomOrder()->first() ?? Category::factory()->create();
+        $brand = Brand::inRandomOrder()->first() ?? Brand::factory()->create();
+
+        $cost = $this->faker->randomFloat(2, 200, 9000);
+        $price = $this->faker->randomFloat(2, $cost + 100, $cost + 2000);
+        $sku = 'LWM-PRD-' . str_pad($this->faker->unique()->numberBetween(1, 99999), 5, '0', STR_PAD_LEFT);
+        $name = $this->faker->randomElement([
+            'Microscopio binocular óptico',
+            'Balanza analítica de precisión',
+            'Agitador magnético con calefacción',
+            'Centrífuga de alta velocidad',
+            'Refractómetro digital portátil',
+            'PH-metro de laboratorio',
+            'Estufa de secado digital',
+            'Cámara de flujo laminar',
+            'Congelador ultra bajo (-86°C)',
+            'Baño María termostatado'
+        ]);
+
         return [
-            'name' => $this->faker->sentence(6),
-            'sku' => $this->faker->regexify('[A-Za-z0-9]{50}'),
-            'description' => $this->faker->text(),
-            'full_description' => $this->faker->text(50),
-            'img_path' => $this->faker->imageUrl(),
-            'datasheet_path' => $this->faker->regexify('[A-Za-z0-9]{400}'),
-            'unit_id' => Unit::factory(),
-            'category_id' => Category::factory(),
-            'brand_id' => Brand::factory(),
+            'name' => $name,
+            'description' => $this->faker->sentence(8),
+            'full_description' => $this->faker->paragraph(3),
+            'sku' => $sku,
+            'cost' => $cost,
+            'price' => $price,
+            'iva' => $this->faker->boolean(),
+            'img_path' => 'https://via.placeholder.com/600x400?text=Producto+de+Laboratorio',
+            'datasheet_path' => 'https://example.com/datasheets/sample.pdf',
+            'unit_id' => $unit->id,
+            'category_id' => $category->id,
+            'brand_id' => $brand->id,
         ];
     }
 }
