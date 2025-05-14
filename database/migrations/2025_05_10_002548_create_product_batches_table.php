@@ -14,7 +14,10 @@ return new class extends Migration
         Schema::create('product_batches', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('warehouse_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('warehouse_location_id')->nullable()->constrained()->nullOnDelete();
             $table->string('batch_number');
+            $table->date('entry_date')->nullable();
             $table->date('expiration_date')->nullable();
             $table->decimal('quantity', 12, 3)->default(0);
             $table->timestamps();
