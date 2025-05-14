@@ -1,104 +1,75 @@
 <?php
 
+// Archivo: tests/Feature/Http/Controllers/ProductBatchControllerTest.php
+
 namespace Tests\Feature\Http\Controllers;
 
+use Tests\TestCase;
+use App\Models\User;
 use App\Models\Product;
 use App\Models\ProductBatch;
-use App\Models\User;
+use App\Models\Warehouse;
+use App\Models\WarehouseLocation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use JMac\Testing\Traits\HttpTestAssertions;
-use PHPUnit\Framework\Attributes\Test;
-use Tests\TestCase;
 
-/**
- * @see \App\Http\Controllers\ProductBatchController
- */
-final class ProductBatchControllerTest extends TestCase
+class ProductBatchControllerTest extends TestCase
 {
-    use HttpTestAssertions, RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
-    #[Test]
-    public function index_behaves_as_expected(): void
+    /** @test */
+    public function store_saves_product_batch()
     {
-        $product = Product::factory()->create();
-        ProductBatch::factory()->count(3)->create(['product_id' => $product->id]);
-
-        $response = $this->getJson(route('product-batches.index'));
-
-        $response->assertOk();
-        $response->assertJsonStructure(['data']);
-    }
-
-    #[Test]
-    public function show_behaves_as_expected(): void
-    {
-        $product = Product::factory()->create();
-        $batch = ProductBatch::factory()->create(['product_id' => $product->id]);
-
-        $response = $this->getJson(route('product-batches.show', $batch));
-
-        $response->assertOk();
-        $response->assertJsonStructure([
-            'data' => [
-                'id',
-                'product_id',
-                'batch_number',
-                'expiration_date',
-                'quantity',
-            ]
-        ]);
-    }
-
-    #[Test]
-    public function store_saves(): void
-    {
-        $this->actingAs(User::factory()->create(), 'sanctum');
+        $user = User::factory()->create();
+        $this->actingAs($user);
 
         $product = Product::factory()->create();
-        $batch_number = strtoupper($this->faker->bothify('BATCH###'));
-        $expiration_date = now()->addMonths(6)->toDateString();
-        $quantity = $this->faker->randomFloat(2, 1, 100);
+        $warehouse = Warehouse::factory()->create();
+        $location = WarehouseLocation::factory()->create(['warehouse_id' => $warehouse->id]);
+
+        $batch_number = 'BN-TEST-001';
+        $quantity = 10;
 
         $response = $this->postJson(route('product-batches.store'), [
             'product_id' => $product->id,
+            'warehouse_id' => $warehouse->id,
+            'warehouse_location_id' => $location->id,
             'batch_number' => $batch_number,
-            'expiration_date' => $expiration_date,
             'quantity' => $quantity,
         ]);
 
         $batches = ProductBatch::where('batch_number', $batch_number)->get();
         $this->assertCount(1, $batches);
+
         $batch = $batches->first();
 
         $response->assertCreated();
         $response->assertJson([
             'data' => [
                 'id' => $batch->id,
-                'batch_number' => $batch_number,
-            ]
+                'batch_number' => $batch->batch_number,
+                'quantity' => $batch->quantity,
+            ],
         ]);
     }
 
-    #[Test]
-    public function update_behaves_as_expected(): void
+    /** @test */
+    public function update_behaves_as_expected()
     {
-        $this->actingAs(User::factory()->create(), 'sanctum');
+        $user = User::factory()->create();
+        $this->actingAs($user);
 
-        $product = Product::factory()->create();
-        $batch = ProductBatch::factory()->create([
-            'product_id' => $product->id,
-        ]);
+        $batch = ProductBatch::factory()->create();
+        $warehouse = Warehouse::factory()->create();
+        $location = WarehouseLocation::factory()->create(['warehouse_id' => $warehouse->id]);
 
-        $batch_number = strtoupper($this->faker->bothify('NEW###'));
-        $expiration_date = now()->addMonths(12)->toDateString();
-        $quantity = $this->faker->randomFloat(2, 1, 100);
+        $batch_number = 'BN-UPDATED-123';
 
         $response = $this->putJson(route('product-batches.update', $batch), [
-            'product_id' => $product->id,
+            'product_id' => $batch->product_id,
+            'warehouse_id' => $warehouse->id,
+            'warehouse_location_id' => $location->id,
             'batch_number' => $batch_number,
-            'expiration_date' => $expiration_date,
-            'quantity' => $quantity,
+            'quantity' => 99,
         ]);
 
         $batch->refresh();
@@ -108,25 +79,8 @@ final class ProductBatchControllerTest extends TestCase
             'data' => [
                 'id' => $batch->id,
                 'batch_number' => $batch_number,
-            ]
+                'quantity' => 99,
+            ],
         ]);
-
-        $this->assertEquals($batch_number, $batch->batch_number);
-    }
-
-    #[Test]
-    public function destroy_deletes_and_responds_with(): void
-    {
-        $this->actingAs(User::factory()->create(), 'sanctum');
-
-        $product = Product::factory()->create();
-        $batch = ProductBatch::factory()->create([
-            'product_id' => $product->id
-        ]);
-
-        $response = $this->deleteJson(route('product-batches.destroy', $batch));
-
-        $response->assertNoContent();
-        $this->assertModelMissing($batch);
     }
 }

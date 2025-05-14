@@ -21,11 +21,25 @@ class PurchaseOrderController extends Controller
 
     public function store(PurchaseOrderStoreRequest $request): Response
     {
-        $purchaseOrder = PurchaseOrder::create($request->validated());
+        $validated = $request->validated();
+        $items = $validated['items'] ?? [];
 
-        return response(new PurchaseOrderResource($purchaseOrder), 201); // 👈 importante
+        unset($validated['items']);
+
+        $total = collect($items)->sum(
+            fn($item) => ($item['unit_price'] ?? 0) * ($item['quantity'] ?? 0)
+        );
+
+        $validated['total_amount'] = $total;
+
+        $purchaseOrder = PurchaseOrder::create($validated);
+
+        foreach ($items as $item) {
+            $purchaseOrder->purchaseOrderItems()->create($item);
+        }
+
+        return response(new PurchaseOrderResource($purchaseOrder), 201);
     }
-
     public function show(Request $request, PurchaseOrder $purchaseOrder): Response
     {
         return response(new PurchaseOrderResource($purchaseOrder), 200);

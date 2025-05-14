@@ -36,13 +36,23 @@ final class SalesOrderControllerTest extends TestCase
         $this->actingAs(User::factory()->create(), 'sanctum');
 
         $customer = Customer::factory()->create();
+        $product = \App\Models\Product::factory()->create([
+            'price' => 100,
+        ]);
 
         $data = [
             'customer_id' => $customer->id,
-            'order_date' => Carbon::now()->toDateString(),
+            'order_date' => now()->toDateString(),
             'status' => 'pending',
-            'total_amount' => 1999.99,
-            'notes' => 'Pedido urgente'
+            'notes' => 'Venta generada en test',
+            'items' => [
+                [
+                    'product_id' => $product->id,
+                    'quantity' => 2,
+                    'unit_price' => 100.00,
+                    'subtotal' => 200.00,
+                ],
+            ],
         ];
 
         $response = $this->postJson(route('sales-orders.store'), $data);
@@ -51,7 +61,12 @@ final class SalesOrderControllerTest extends TestCase
         $this->assertDatabaseHas('sales_orders', [
             'customer_id' => $customer->id,
             'status' => 'pending',
-            'total_amount' => 1999.99,
+            'total_amount' => 200.00,
+        ]);
+        $this->assertDatabaseHas('sales_order_items', [
+            'product_id' => $product->id,
+            'quantity' => 2,
+            'subtotal' => 200.00,
         ]);
     }
 
@@ -72,24 +87,37 @@ final class SalesOrderControllerTest extends TestCase
     {
         $this->actingAs(User::factory()->create(), 'sanctum');
 
-        $salesOrder = SalesOrder::factory()->create();
+        $order = SalesOrder::factory()->create();
         $customer = Customer::factory()->create();
+        $product = \App\Models\Product::factory()->create();
 
         $data = [
             'customer_id' => $customer->id,
             'order_date' => now()->addDay()->toDateString(),
             'status' => 'confirmed',
-            'total_amount' => 2450.00,
-            'notes' => 'Actualización desde test'
+            'notes' => 'Modificación desde test',
+            'items' => [
+                [
+                    'product_id' => $product->id,
+                    'quantity' => 3,
+                    'unit_price' => 450.00,
+                    'subtotal' => 1350.00,
+                ]
+            ],
         ];
 
-        $response = $this->putJson(route('sales-orders.update', $salesOrder), $data);
+        $response = $this->putJson(route('sales-orders.update', $order), $data);
 
         $response->assertOk();
         $this->assertDatabaseHas('sales_orders', [
-            'id' => $salesOrder->id,
+            'id' => $order->id,
             'status' => 'confirmed',
-            'total_amount' => 2450.00,
+            'total_amount' => 1350.00,
+        ]);
+        $this->assertDatabaseHas('sales_order_items', [
+            'sales_order_id' => $order->id,
+            'product_id' => $product->id,
+            'subtotal' => 1350.00,
         ]);
     }
 

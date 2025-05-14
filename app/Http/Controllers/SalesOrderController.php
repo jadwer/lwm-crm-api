@@ -14,32 +14,70 @@ class SalesOrderController extends Controller
 {
     public function index(Request $request): Response
     {
-        $salesOrders = SalesOrder::all();
+        $salesOrders = SalesOrder::with('customer')->get();
 
         return response(new SalesOrderCollection($salesOrders), 200);
     }
 
     public function store(SalesOrderStoreRequest $request): Response
     {
-        $salesOrder = SalesOrder::create($request->validated());
+        $validated = $request->validated();
+        $items = $validated['items'] ?? [];
+
+        unset($validated['items']);
+
+        $total = collect($items)->sum(
+            fn($item) => ($item['unit_price'] ?? 0) * ($item['quantity'] ?? 0)
+        );
+
+        $validated['total_amount'] = $total;
+
+        $salesOrder = SalesOrder::create($validated);
+
+        foreach ($items as $item) {
+            $salesOrder->salesOrderItems()->create($item);
+        }
 
         return response(new SalesOrderResource($salesOrder), 201);
     }
 
     public function show(Request $request, SalesOrder $salesOrder): Response
     {
+        $salesOrder->load('customer');
+
         return response(new SalesOrderResource($salesOrder), 200);
     }
 
     public function update(SalesOrderUpdateRequest $request, SalesOrder $salesOrder): Response
     {
-        $salesOrder->update($request->validated());
+        $validated = $request->validated();
+        $items = $validated['items'] ?? [];
+
+        unset($validated['items']);
+
+        $total = collect($items)->sum(
+            fn($item) => ($item['unit_price'] ?? 0) * ($item['quantity'] ?? 0)
+        );
+
+        $validated['total_amount'] = $total;
+
+        $salesOrder->update($validated);
+
+        if (!empty($items)) {
+            // Elimina los ítems anteriores y guarda los nuevos
+            $salesOrder->salesOrderItems()->delete();
+
+            foreach ($items as $item) {
+                $salesOrder->salesOrderItems()->create($item);
+            }
+        }
 
         return response(new SalesOrderResource($salesOrder), 200);
     }
 
     public function destroy(Request $request, SalesOrder $salesOrder): Response
     {
+        $salesOrder->salesOrderItems()->delete(); // elimina los hijos primero
         $salesOrder->delete();
 
         return response()->noContent();

@@ -14,9 +14,17 @@ class SalesOrderItemController extends Controller
 {
     public function index(Request $request): Response
     {
-        $salesOrderItems = SalesOrderItem::all();
+        $query = SalesOrderItem::query();
 
-        return response(new SalesOrderItemCollection($salesOrderItems), 200);
+        if ($request->has('sales_order_id')) {
+            $query->where('sales_order_id', $request->sales_order_id);
+        }
+
+        $salesOrderItems = SalesOrderItemResource::collection(
+            $query->paginate(12)->setPath("")
+        )->resource;
+
+        return response($salesOrderItems, 200);
     }
 
     public function store(SalesOrderItemStoreRequest $request): Response

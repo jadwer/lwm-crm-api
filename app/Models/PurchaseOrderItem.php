@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class PurchaseOrderItem extends Model
 {
@@ -41,5 +43,14 @@ class PurchaseOrderItem extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function scopeFilters(Builder $query, Request $request)
+    {
+        $query
+            ->when($request->has('purchase_order_id'), function ($query) use ($request) {
+                return $query->where('purchase_order_id', '=', $request->purchase_order_id);
+            });
+         return $query;
     }
 }

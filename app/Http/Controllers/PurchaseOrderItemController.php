@@ -14,9 +14,10 @@ class PurchaseOrderItemController extends Controller
 {
     public function index(Request $request): Response
     {
-        $purchaseOrderItems = PurchaseOrderItem::all();
+        $purchaseOrderItems = PurchaseOrderItemResource::collection(PurchaseOrderItem::filters($request)->paginate(12)->setPath(""))->resource;
 
-        return response(new PurchaseOrderItemCollection($purchaseOrderItems), 200);
+        return response($purchaseOrderItems, 200);
+
     }
 
     public function store(PurchaseOrderItemStoreRequest $request): Response
